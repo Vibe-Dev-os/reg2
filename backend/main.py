@@ -182,7 +182,7 @@ async def train_model():
     
     try:
         # Load data
-        data_path = os.path.join(os.path.dirname(__file__), '..', 'student-por.csv')
+        data_path = os.path.join(os.path.dirname(__file__), 'student-por.csv')
         df = load_and_preprocess_data(data_path)
         
         # Encode categorical features
@@ -440,7 +440,7 @@ async def model_status():
 async def dataset_info():
     """Get information about the dataset"""
     try:
-        data_path = os.path.join(os.path.dirname(__file__), '..', 'student-por.csv')
+        data_path = os.path.join(os.path.dirname(__file__), 'student-por.csv')
         df = pd.read_csv(data_path)
         
         return {
@@ -460,7 +460,7 @@ async def dataset_info():
 async def get_demographics():
     """Get demographic statistics from the dataset"""
     try:
-        data_path = os.path.join(os.path.dirname(__file__), '..', 'student-por.csv')
+        data_path = os.path.join(os.path.dirname(__file__), 'student-por.csv')
         df = load_and_preprocess_data(data_path)
         
         # Gender distribution
