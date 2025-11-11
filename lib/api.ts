@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://reg2-boq6.onrender.com';
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://reg2-boq6.onrender.com').replace(/\/$/, '');
 
 export interface StudentData {
   school: string;
