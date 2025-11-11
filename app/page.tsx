@@ -28,6 +28,14 @@ export default function Home() {
       setActiveTab(savedTab);
     }
     loadStatus();
+
+    // Auto-refresh metrics every 5 seconds (without showing loading state)
+    const intervalId = setInterval(() => {
+      loadStatus(false);
+    }, 5000); // 5000ms = 5 seconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   // Save active tab to localStorage whenever it changes
@@ -47,8 +55,10 @@ export default function Home() {
     document.body.removeChild(link);
   };
 
-  const loadStatus = async () => {
-    setIsLoading(true);
+  const loadStatus = async (showLoading = true) => {
+    if (showLoading) {
+      setIsLoading(true);
+    }
     try {
       const [status, info] = await Promise.all([
         getModelStatus(),
@@ -59,7 +69,9 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to load status:", error);
     } finally {
-      setIsLoading(false);
+      if (showLoading) {
+        setIsLoading(false);
+      }
     }
   };
 

@@ -2,8 +2,9 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Target, Activity, BarChart3, CheckCircle2, AlertCircle } from "lucide-react";
+import { TrendingUp, Target, Activity, BarChart3, CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { useState, useEffect } from "react";
 
 interface ModelMetricsProps {
   metrics: {
@@ -15,6 +16,12 @@ interface ModelMetricsProps {
 }
 
 export default function ModelMetrics({ metrics }: ModelMetricsProps) {
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+
+  // Update timestamp whenever metrics change
+  useEffect(() => {
+    setLastUpdated(new Date());
+  }, [metrics]);
   const getR2Color = (r2: number) => {
     if (r2 >= 0.8) return "text-green-600";
     if (r2 >= 0.6) return "text-blue-600";
@@ -45,13 +52,21 @@ export default function ModelMetrics({ metrics }: ModelMetricsProps) {
   return (
     <Card className="sticky top-4">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <BarChart3 className="h-5 w-5" />
-          Model Performance
-        </CardTitle>
-        <CardDescription>
-          Evaluated on 20% test data ({metrics.rmse ? '~130 students' : 'Not trained yet'})
-        </CardDescription>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <BarChart3 className="h-5 w-5" />
+              Model Performance
+            </CardTitle>
+            <CardDescription>
+              Evaluated on 20% test data ({metrics.rmse ? '~130 students' : 'Not trained yet'})
+            </CardDescription>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <RefreshCw className="h-3 w-3 animate-spin" style={{ animationDuration: '3s' }} />
+            <span>Auto-updating</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Overall Accuracy */}
