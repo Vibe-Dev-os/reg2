@@ -16,6 +16,15 @@ import json
 
 app = FastAPI(title="Student Grade Prediction API")
 
+# Debug: Print all routes on startup
+@app.on_event("startup")
+async def startup_event():
+    print("=== FastAPI Startup ===")
+    print("Available routes:")
+    for route in app.routes:
+        print(f"  {route.methods} {route.path}")
+    print("======================")
+
 # CORS middleware
 # Allow all origins for now
 app.add_middleware(
