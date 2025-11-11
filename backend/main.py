@@ -17,17 +17,11 @@ import json
 app = FastAPI(title="Student Grade Prediction API")
 
 # CORS middleware
-# Get allowed origins from environment variable or use defaults
-ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "").split(",") if os.getenv("ALLOWED_ORIGINS") else [
-    "http://localhost:3000",
-    "https://*.vercel.app",
-    "*"  # Allow all origins - restrict this in production
-]
-
+# Allow all origins for now
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=False,  # Must be False when using "*"
     allow_methods=["*"],
     allow_headers=["*"],
 )
