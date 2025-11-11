@@ -470,7 +470,7 @@ async def get_demographics():
     """Get demographic statistics from the dataset"""
     try:
         data_path = os.path.join(os.path.dirname(__file__), 'student-por.csv')
-        df = load_and_preprocess_data(data_path)
+        df = pd.read_csv(data_path)  # Use direct pandas read instead of preprocessing
         
         # Gender distribution
         gender_counts = df['sex'].value_counts()
@@ -524,6 +524,9 @@ async def get_demographics():
             "parentStatusDistribution": parent_status_distribution
         }
     except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"Demographics error: {error_details}")
         raise HTTPException(status_code=500, detail=f"Failed to load demographics: {str(e)}")
 
 if __name__ == "__main__":
